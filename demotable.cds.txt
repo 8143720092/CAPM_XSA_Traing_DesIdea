@@ -4,7 +4,7 @@ type Integer16 : Integer @edm.Type : 'Int16';
 
 entity orders{
 
-  key id        : Integer64;
+  key id        : Integer16;
   customername  : String(120);
   contactperson : String(64);
   grossamount   : Dacimal(10,2);
