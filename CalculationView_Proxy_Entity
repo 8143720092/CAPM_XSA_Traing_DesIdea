@@ -1,0 +1,22 @@
+@cds.persistence.calcview
+@cds.persistence.exists
+entity ![PODetails] {
+    ![NODE_KEY]: String(32) @title : 'NODE_KEY: NODE_KEY';
+    ![BP_ROLE]: String(2) @title : 'BP_ROLE: BP_ROLE';
+    ![BP_ID]: String(32) @title : 'BP_ID: BP_ID';
+    ![COMPANY_NAME]: String(250) @title : 'COMPANY_NAME: COMPANY_NAME';
+    ![CITY]: String(44) @title : 'CITY: CITY';
+    ![POSTAL_CODE]: String(8) @title : 'POSTAL_CODE: POSTAL_CODE';
+    ![COUNTRY]: String(44) @title : 'COUNTRY: COUNTRY';
+    ![ID]: String(36) @title : 'ID: ID';
+    ![PARTNER_GUID_NODE_KEY]: String(32) @title : 'PARTNER_GUID_NODE_KEY: PARTNER_GUID_NODE_KEY';
+    ![OVERALL_STATUS]: String(1) @title : 'OVERALL_STATUS: OVERALL_STATUS';
+    ![PO_ID]: Integer @title : 'TodaysDate';
+    ![CURRENCY_CODE]: String(3) @title : 'CURRENCY_CODE: CURRENCY_CODE';
+    ![PO_ITEM_POS]: Integer @title : 'PO_ITEM_POS: PO_ITEM_POS';
+    ![TodaysDate]: Date @title : 'CURRENCY_CODE: CURRENCY_CODE';
+    ![GROSS_AMOUNT]: Decimal(15, 2) @title : 'GROSS_AMOUNT: GROSS_AMOUNT';
+    ![NET_AMOUNT]: Decimal(15, 2) @title : 'NET_AMOUNT: NET_AMOUNT';
+    ![TAX_AMOUNT]: Decimal(15, 2) @title : 'TAX_AMOUNT: TAX_AMOUNT';
+
+}
