@@ -1,0 +1,76 @@
+--- masterdata.hdblibrary ---- in HAHA Artifact --------------
+
+LIBRARY "masterdata"
+LANGUAGE SQLSCRIPT
+AS
+BEGIN.
+    
+    PUBLIC variable rowcount INT;
+
+    PUBLIC FUNCTION "employee_exists"(
+    in im_employee_id NVARCHAR(36)            -- importing parametr
+    ) RETURNS res BOOLEAN as BEGIN            -- res as exporting parameter or scaler variable of boolean type returns one value
+
+        DECLARE lv_count int;
+        SELECT count(*) into lv_count FROM TABLES_DB_MASTER_EMPLOYEES WHERE loginname =  im_employee_id;
+
+        IF lv_count > 0 THEN
+            res = true;
+        ELSE
+            res = FALSE;
+        end IF;
+    end;
+
+    -- Now we add a procedure to get all data of employee table
+    PUBLIC PROCEDURE "get_employee_data"(
+        OUT ex_employees "TABLES_DB_MASTER_EMPLOYEES"                          --Exporting as table and database table is using as tabletype structure
+    ) LANGUAGE SQLSCRIPT 
+      SQL SECURITY INVOKER
+      as BEGIN
+        
+            ex_employees = SELECT * FROM TABLES_DB_MASTER_EMPLOYEES;           -- select all data 
+            rowcount = RECORD_COUNT(:ex_employees);
+
+      END;
+
+    -- Now create a procedure to get all data of busnesspartner table data
+    PUBLIC PROCEDURE "get_business_partner_data"(
+        OUT ex_businesspartners "TABLES_DB_MASTER_BUSINESSPARTNER"                  --Exporting as table and database table is using as tabletype structure
+    ) LANGUAGE SQLSCRIPT 
+      SQL SECURITY INVOKER
+      as BEGIN
+        
+            ex_businesspartners = SELECT * FROM TABLES_DB_MASTER_BUSINESSPARTNER;       -- select all data 
+            rowcount = RECORD_COUNT(:ex_businesspartners);
+      END;
+END
+
+--####################################################################################################################################################
+
+
+-- Creating a .hdbproceedure to call function library having some functions and procedure ( ex : LIBRARY "masterdata")
+
+PROCEDURE "get_master_data"(  
+    OUT ex_emp_exists BOOLEAN,
+    OUT ex_employees TABLES_DB_MASTER_EMPLOYEES,                   -- using table as retur data type
+    OUT ex_emp_count int,
+    OUT ex_businesspartners TABLES_DB_MASTER_BUSINESSPARTNER,
+    OUT ex_bp_count int
+)
+   LANGUAGE SQLSCRIPT
+   SQL SECURITY INVOKER
+   --DEFAULT SCHEMA <default_schema_name>
+   AS
+BEGIN
+   /*************************************
+       Write your procedure logic
+   *************************************/
+    ex_emp_exists = "masterdata":"employee_exists"('NICOLSJ');                 -- while calling function just use libraryname:function_Name('field value')
+   
+    call "masterdata":"get_employee_data"( ex_employees );                     -- while calling procedure just use libraryname:procedure_Name('target veriable')
+    ex_emp_count = "masterdata":rowcount;                                      --calling globle veriable directly
+
+    CALL "masterdata":"get_business_partner_data"( ex_businesspartners );
+    ex_bp_count = "masterdata":rowcount; 
+
+END
