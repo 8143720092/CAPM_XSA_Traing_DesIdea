@@ -46,6 +46,6 @@ BEGIN
                             emp.id = chg.EID
                             ORDER BY combine_cnt DESC                                -- ORDER BY combine_cnt Desending order
                             limit 5;                                                 -- To get TOP 5 Employees
-                          --limit 5 offset 5;                                       -- Skip TOP 5 and get Next 5 set of Employees
+                          --limit 5 offset 5;                                        -- Skip TOP 5 and get Next 5 set of Employees
 
 END
